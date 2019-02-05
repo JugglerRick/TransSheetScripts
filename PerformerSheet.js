@@ -45,7 +45,10 @@ function PerformerSheet() {
   * get the Performer Row by index
   */
   this.getPerformerRow = function(rowNumber){
-    return new PerformerRow(this.getRowRange(rowNumber));
+    var columnArray = this.getRowRange(rowNumber).getValues()[0];
+    var row =  new PerformerRow();
+    row.fromMappedArray(columnArray)
+    return row
   }
 
   for(var i = 0 ; i < this.rowCount ; ++i) {
@@ -60,9 +63,9 @@ function PerformerSheet() {
   this.findPerformerByName = function(name) {
     var performer = null;
     var performerName = null;
-    for(var i = 0 ; i < this.rows.length && null == performer ; ++i){
+    for(var i = 0 ; i < this.rows.length && null === performer ; ++i){
       performerName = this.rows[i].firstName + ' ' + this.rows[i].lastName;
-      if(name == performerName) {
+      if(name === performerName) {
         performer = this.rows[i];
       }
     }

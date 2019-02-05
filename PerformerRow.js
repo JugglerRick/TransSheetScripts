@@ -49,16 +49,16 @@ ActRow.prototype.columnItems = null;
 ActRow.prototype.numColumns = 0;
 
 
-ActRow.prototype.getHeaderArray = function () {
-  var retArray = new Array();
-  var headerStrings = new Array();
+// ActRow.prototype.getHeaderArray = function () {
+//   var retArray = new Array();
+//   var headerStrings = new Array();
 
-  for (var i = 0; i < this.columnItems.length; ++i) {
-    headerStrings.push(this.columnItems[i].header);
-  }
-  retArray.push(headerStrings);
-  return retArray;
-}
+//   for (var i = 0; i < this.columnItems.length; ++i) {
+//     headerStrings.push(this.columnItems[i].header);
+//   }
+//   retArray.push(headerStrings);
+//   return retArray;
+// }
 
 /**
  * Does the given row have the same ID has this
@@ -76,21 +76,21 @@ ActRow.prototype.hasSameIdHas = function (row) {
  * Update this ActRow with the columns from the given ActRow
  * @param {ActRow} row - the row to update from
  */
-ActRow.prototype.update = function (row) { this.fromArray(row.columnValues); };
+//ActRow.prototype.update = function (row) { this.fromArray(row.columnValues); };
 
 /**
  * Set the array of column values to the values given in the Arra
  * @param {Array} newRowArray - the array to set the column values from
  */
-ActRow.prototype.fromArray = function (newRowArray) {
-  for (var i = 0; i < this.numColumns; ++i) {
-    var item = newRowArray[i];
-    if ("@" === this.formatStrings[i]) {
-      item = String(item).trim();
-    }
-    this.columnValues[i] = item;
-  }
-};
+// ActRow.prototype.fromArray = function (newRowArray) {
+//   for (var i = 0; i < this.numColumns; ++i) {
+//     var item = newRowArray[i];
+//     if ("@" === this.formatStrings[i]) {
+//       item = String(item).trim();
+//     }
+//     this.columnValues[i] = item;
+//   }
+// };
 
 ActRow.prototype.fromMappedArray = function (sourceArray) {
   for (var i = 0; i < this.numColumns; ++i) {
@@ -118,28 +118,28 @@ ActRow.prototype.toMappedArray = function (destinationArray) {
  * Add the ActRow to the given sheet
  * @param {Sheet} sheet - the sheet to add the row to
  */
-ActRow.prototype.addToSheet = function (sheet) {
-  sheet.appendRow(this.columnValues);
-  var range = sheet.getRange((sheet.getLastRow()), 1, 1, this.numColumns);
-  //logRange(range, this.formatStrings);
-  range.setNumberFormats(this.formatStrings);
-}
+// ActRow.prototype.addToSheet = function (sheet) {
+//   sheet.appendRow(this.columnValues);
+//   var range = sheet.getRange((sheet.getLastRow()), 1, 1, this.numColumns);
+//   //logRange(range, this.formatStrings);
+//   range.setNumberFormats(this.formatStrings);
+// }
 
 /**
  *  Initialize given range to the values of the column values
  *  and set the cell formatting for the range
  * @param {Range} range - the range to set to the column values
  */
-ActRow.prototype.initRange = function (range) {
-  if (this.updateRange(range)) {
-    range.setNumberFormats(this.formatStrings);
-  }
-};
+// ActRow.prototype.initRange = function (range) {
+//   if (this.updateRange(range)) {
+//     range.setNumberFormats(this.formatStrings);
+//   }
+// };
 
 
 
 PerformerRow.prototype = new ActRow();
-PerformerRow.constructor = PerformerRow;
+PerformerRow.prototype.constructor = PerformerRow;
 PerformerRow.prototype.columnItems = [
   { name: "ACT_NAME"              , header: "" , mapIndex:    1, format: "@"},
   { name: "NUMBER_IN_ACT"         , header: "" , mapIndex:    2, format: "@"},
@@ -212,7 +212,7 @@ PerformerRow.prototype.numColumns = PerformerRow.prototype.columnItems.length;
   Object.defineProperty(this, 'housingAddress'      ,{get: function(){return this.columnValues[this.HOUSING_ADDDRESS];}, set: function(value){this.columnValues[this.HOUSING_ADDDRESS] = value;}, enumerable: true});
   Object.defineProperty(this, 'housingEmail'        ,{get: function(){return this.columnValues[this.HOUSING_EMAIL   ];}, set: function(value){this.columnValues[this.HOUSING_EMAIL   ] = value;}, enumerable: true});
 
-  Object.defineProperties(this, 'flightArrivalDate', {
+  Object.defineProperty(this, 'flightArrivalDate', {
     enumerable: true,
     get: function() {
       return new mergeDateTime(this.arriveDate,this.arriveTime);
@@ -222,7 +222,7 @@ PerformerRow.prototype.numColumns = PerformerRow.prototype.columnItems.length;
       this.arriveTime = date.getTimeString();
     }
   });
-  Object.defineProperties(this, 'flightDepartDate', {
+  Object.defineProperty(this, 'flightDepartDate', {
     enumerable: true,
     get: function() {
       return new mergeDateTime(this.departDate,this.departTime);
@@ -232,27 +232,27 @@ PerformerRow.prototype.numColumns = PerformerRow.prototype.columnItems.length;
       this.departTime = date.getTimeString();
     }
   });
-  Object.defineProperties(this, 'flightArrivalIsShiftEntered', {
+  Object.defineProperty(this, 'flightArrivalIsShiftEntered', {
     enumerable: true,
     get: function(){
-      return  this.currentValues[this.ARRIVAL_SHIFT_ENTERED].trim() === "Yes";
+      return  this.columnValues[this.ARRIVAL_SHIFT_ENTERED].trim() === "Yes";
     },
     set: function(isShiftEntered) {
-      this.currentValues[this.ARRIVAL_SHIFT_ENTERED] = (isShiftEntered) ? "Yes" : "";
+      this.columnValues[this.ARRIVAL_SHIFT_ENTERED] = (isShiftEntered) ? "Yes" : "";
     }
   });
-  Object.defineProperties(this, 'flightDepartIsShiftEntered', {
+  Object.defineProperty(this, 'flightDepartIsShiftEntered', {
     enumerable: true,
     get: function(){
-      return  this.currentValues[this.DEPART_SHIFT_ENTERED].trim() === "Yes";
+      return  this.columnValues[this.DEPART_SHIFT_ENTERED].trim() === "Yes";
     },
     set: function(isShiftEntered) {
-      this.currentValues[this.DEPART_SHIFT_ENTERED] = (isShiftEntered) ? "Yes" : "";
+      this.columnValues[this.DEPART_SHIFT_ENTERED] = (isShiftEntered) ? "Yes" : "";
     }
   });
 
   // needsPickUp
-  Object.defineProperties(this, 'needsPickUp', {
+  Object.defineProperty(this, 'needsPickUp', {
     enumerable: true,
     get: function () {
       var pickup = this.columnValues[this.NEEDS_PICKUP].trim();
@@ -261,7 +261,7 @@ PerformerRow.prototype.numColumns = PerformerRow.prototype.columnItems.length;
     }
   });
   // needsDropOff
-  Object.defineProperties(this, 'needsDropOff', {
+  Object.defineProperty(this, 'needsDropOff', {
     enumerable: true,
     get: function() {
       var dropOff = this.columnValues[this.NEEDS_DROPOFF].trim();
@@ -273,38 +273,38 @@ PerformerRow.prototype.numColumns = PerformerRow.prototype.columnItems.length;
   /**
   * Test if the row has an address
   */
-  Object.defineProperties(this, 'hasHousingAddress', {
+  Object.defineProperty(this, 'hasHousingAddress', {
     enumerable: true,
     get: function () {
       return this.housingAddress !== null && this.housingAddress !== "";
     }
   });
 
-  Object.defineProperties(this, 'hasArrival', {
+  Object.defineProperty(this, 'hasArrival', {
     enumerable: true,
     get: function () {
       return this.flightArrivalNum !== null && this.flightArrivalNum !== "";
     }
   });
 
-  Object.defineProperties(this, 'hasDeparture', {
+  Object.defineProperty(this, 'hasDeparture', {
     enumerable: true,
     get: function () {
       return this.flightDepartNum !== null && this.flightDepartNum !== "";
     }
   });
 
-  Object.defineProperties(this, 'isValidForArrival', {
+  Object.defineProperty(this, 'isValidForArrival', {
     enumerable: true,
     get: function () {
-      return this.hasHousingAddress() && this.hasArrival();
+      return this.hasHousingAddress && this.hasArrival;
     }
   });
 
-  Object.defineProperties(this, 'isValidForDeparture', {
+  Object.defineProperty(this, 'isValidForDeparture', {
     enumerable: true,
     get: function () {
-      return this.hasHousingAddress() && this.hasDeparture();
+      return this.hasHousingAddress && this.hasDeparture;
     }
   });
 
@@ -381,26 +381,26 @@ PerformerRow.prototype.toLog = function () {
   Logger.log("eMail: " + this.eMail);
   Logger.log("travelMethod: " + this.travelMethod);
   Logger.log("NeedsRides: " + this.needsRides);
-  if (this.isValidForArrival()) {
+  if (this.isValidForArrival) {
     Logger.log("comingFrom: " + this.comingFrom);
     Logger.log("arrivingAt: " + this.arrivingAt);
     Logger.log("flightArrivalDate: " + Utilities.formatDate(this.flightArrivalDate, "PST", "MMM dd"));
     Logger.log("flightArrivalTime: " + Utilities.formatDate(this.flightArrivalDate, "PST", "hh:mm a"));
     Logger.log("flightArrivalNum: " + this.flightArrivalNum);
     Logger.log("flightArrivalNotes: " + this.flightArrivalNotes);
-    Logger.log("needsPickUp: " + this.needsPickUp());
+    Logger.log("needsPickUp: " + this.needsPickUp);
     Logger.log("flightArrivalisShiftEntered: " + this.flightArrivalisShiftEntered);
     Logger.log("flightArrivalDriver: " + this.flightArrivalDriver);
     Logger.log("flightArrivalPhone: " + this.flightArrivalPhone);
   }
-  if (this.isValidForDeparture()) {
+  if (this.isValidForDeparture) {
     Logger.log("goingTo: " + this.goingTo);
     Logger.log("departForm: " + this.departForm);
     Logger.log("flightDepartDate: " + this.flightDepartDate);
     Logger.log("flightDepartTime: " + this.flightDepartTime);
     Logger.log("flightDepartNum: " + this.flightDepartNum);
     Logger.log("flightDepartNotes: " + this.flightDepartNotes);
-    Logger.log("needsDropOff: " + this.needsDropOff());
+    Logger.log("needsDropOff: " + this.needsDropOff);
     Logger.log("flightDepartIsShiftEntered: " + this.flightDepartIsShiftEntered);
     Logger.log("flightDepartDriver: " + this.flightDepartDriver);
     Logger.log("flightDepartPhone: " + this.flightDepartPhone);
@@ -416,17 +416,18 @@ PerformerRow.prototype.toLog = function () {
 function testPerformerRow() {
   var errorMessage = null;
   var performerSheet = new PerformerSheet();
-  var performerRow = performerSheet.findPerformerByName("Alan Plotkin");
+  var performerRow = performerSheet.findPerformerByName("Al Simmons");
   if (null == performerRow) {
     errorMessage = 'Transport Row Test:no data in row 1';
   }
-  if (null === errorMessage && !performerRow.isValidForArrival()) {
+  performerRow.toLog();
+  if (null === errorMessage && !performerRow.isValidForArrival) {
     errorMessage = Utilities.formatString('Transport Row Test:: There is currently no arrival data for %s', performerRow.toString());
   }
-  if (null === errorMessage && !performerRow.isValidForDeparture()) {
+  if (null === errorMessage && !performerRow.isValidForDeparture) {
     errorMessage = Utilities.formatString("Transport Row Test:: There is currently no departure data for %s\n%s", performerRow.actName, performerRow.toString());
   }
-  if (null === errorMessage && !performerRow.hasHousingAddress()) {
+  if (null === errorMessage && !performerRow.hasHousingAddress) {
     errorMessage = Utilities.formatString("Transport Row Test: There is currently no housing available for %s\n%s", performerRow.actName, performerRow.toString());
   }
   if (null === errorMessage) {
